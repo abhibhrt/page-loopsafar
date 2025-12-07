@@ -129,7 +129,7 @@ export default function HomePage() {
                                 initial={{ opacity: 0, x: 50 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.8, delay: 0.4 }}
-                                className="lg:flex justify-center items-center"
+                                className="flex justify-center items-center"
                             >
                                 <div className="relative w-96 h-96">
                                     {/* Animated circles & Developer illustration (kept the same) */}
@@ -170,8 +170,8 @@ export default function HomePage() {
                                                 }}
                                             />
                                             <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
-                                                <div className="text-center">
-                                                    <div className="text-6xl mb-4">👨‍💻</div>
+                                                <div className="text-center flex flex-col items-center justify-center">
+                                                    <img src="https://lh3.googleusercontent.com/a/ACg8ocLDhxPU-BeW-tFoDlzHEHooqXrUSLh2pU83B7es6rRYwt_Xg-OX=s360-c-no" className='rounded-full h-30' alt="profile-pic" />
                                                     <div className="text-white font-bold text-xl">Code & Design</div>
                                                 </div>
                                             </div>
