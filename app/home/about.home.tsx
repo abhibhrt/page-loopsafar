@@ -2,10 +2,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FaDownload, FaReact, FaNodeJs, FaDatabase, FaGitAlt, FaTools } from 'react-icons/fa'
+import { FaDownload, FaReact, FaNodeJs, FaGitAlt } from 'react-icons/fa'
 import { SiTypescript, SiJavascript, SiMongodb, SiExpress, SiTailwindcss, SiNextdotjs, SiRedux } from 'react-icons/si'
 import { TbApi } from 'react-icons/tb'
-import { GrUserExpert } from 'react-icons/gr'
+import SkillCategory from './skills.home'
 
 const skillsData = {
     languages: [
@@ -13,9 +13,9 @@ const skillsData = {
         { name: 'TypeScript', icon: <SiTypescript className="text-blue-500" />, level: 85 },
     ],
     fundamentals: [
-        { name: 'Data Structures', icon: '📊', level: 85 },
-        { name: 'Algorithms', icon: '⚡', level: 80 },
-        { name: 'System Design', icon: '🏗️', level: 75 },
+        { name: 'Data Structures', icon: <span>📊</span>, level: 85 },
+        { name: 'Algorithms', icon: <span>⚡</span>, level: 80 },
+        { name: 'System Design', icon: <span>🏗️</span>, level: 75 },
     ],
     frontend: [
         { name: 'React.js', icon: <FaReact className="text-cyan-400" />, level: 90 },
@@ -31,68 +31,19 @@ const skillsData = {
     ],
     tools: [
         { name: 'Git', icon: <FaGitAlt className="text-orange-500" />, level: 85 },
-        { name: 'Docker', icon: '🐳', level: 70 },
-        { name: 'VS Code', icon: '💻', level: 95 },
-        { name: 'Postman', icon: '📡', level: 85 },
+        { name: 'Docker', icon: <span>🐳</span>, level: 70 },
+        { name: 'VS Code', icon: <span>💻</span>, level: 95 },
+        { name: 'Postman', icon: <span>📡</span>, level: 85 },
     ],
     softSkills: [
-        { name: 'Problem Solving', icon: '🧠', level: 90 },
-        { name: 'Communication', icon: '💬', level: 85 },
-        { name: 'Team Work', icon: '🤝', level: 88 },
-        { name: 'Adaptability', icon: '🔄', level: 90 },
+        { name: 'Problem Solving', icon: <span>🧠</span>, level: 90 },
+        { name: 'Communication', icon: <span>💬</span>, level: 85 },
+        { name: 'Team Work', icon: <span>🤝</span>, level: 88 },
+        { name: 'Adaptability', icon: <span>🔄</span>, level: 90 },
     ]
 }
 
-const SkillCategory = ({
-    title,
-    skills,
-    icon,
-    delay = 0
-}: {
-    title: string
-    skills: Array<{ name: string, icon: React.ReactNode, level: number }>
-    icon?: React.ReactNode
-    delay?: number
-}) => (
-    <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay }}
-        viewport={{ once: true }}
-        className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-cyan-500/30 transition-all duration-300"
-    >
-        <div className="flex items-center gap-3 mb-6">
-            {icon && <div className="text-2xl">{icon}</div>}
-            <h3 className="text-xl font-bold text-white">{title}</h3>
-        </div>
-
-        <div className="space-y-4">
-            {skills.map((skill, index) => (
-                <div key={index} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <div className="text-xl">{skill.icon}</div>
-                            <span className="text-gray-200 font-medium">{skill.name}</span>
-                        </div>
-                        <span className="text-cyan-400 font-bold text-sm">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                        <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${skill.level}%` }}
-                            transition={{ duration: 1, delay: delay + index * 0.1 }}
-                            viewport={{ once: true }}
-                            className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
-                        />
-                    </div>
-                </div>
-            ))}
-        </div>
-    </motion.div>
-)
-
 export default function AboutSection() {
-
     return (
         <section className="py-20 px-4 relative overflow-hidden">
             <div className="max-w-7xl mx-auto relative z-10">
@@ -201,7 +152,6 @@ export default function AboutSection() {
 
                     {/* Skills Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {/* Languages */}
                         <SkillCategory
                             title="Languages"
                             skills={skillsData.languages}
@@ -209,7 +159,6 @@ export default function AboutSection() {
                             delay={0.1}
                         />
 
-                        {/* Fundamentals */}
                         <SkillCategory
                             title="Fundamentals"
                             skills={skillsData.fundamentals}
@@ -217,35 +166,31 @@ export default function AboutSection() {
                             delay={0.2}
                         />
 
-                        {/* Front-End */}
                         <SkillCategory
                             title="Front-End"
                             skills={skillsData.frontend}
-                            icon={<FaTools className="text-2xl text-cyan-400" />}
+                            icon={<div className="text-2xl">🎨</div>}
                             delay={0.3}
                         />
 
-                        {/* Back-End */}
                         <SkillCategory
                             title="Back-End"
                             skills={skillsData.backend}
-                            icon={<FaDatabase className="text-2xl text-blue-400" />}
+                            icon={null}
                             delay={0.4}
                         />
 
-                        {/* Tools */}
                         <SkillCategory
                             title="Tools"
                             skills={skillsData.tools}
-                            icon={<FaTools className="text-2xl text-emerald-400" />}
+                            icon={null}
                             delay={0.5}
                         />
 
-                        {/* Soft Skills */}
                         <SkillCategory
                             title="Soft Skills"
                             skills={skillsData.softSkills}
-                            icon={<GrUserExpert className="text-2xl text-yellow-400" />}
+                            icon={null}
                             delay={0.6}
                         />
                     </div>

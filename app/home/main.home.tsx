@@ -1,20 +1,21 @@
-// components/home.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
+import TESTAPI from '../components/testAPI'
 
 export default function HomePage() {
     const [cursorText, setCursorText] = useState('')
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
     useEffect(() => {
         const texts = ['Full Stack Developer', 'Web Developer', 'Software Engineer']
-        // ... (rest of the typewriter effect logic remains the same) ...
+
         let currentIndex = 0
         let charIndex = 0
         let isDeleting = false
-        let isEnd = false
 
         const typeEffect = () => {
             const currentText = texts[currentIndex]
@@ -30,8 +31,7 @@ export default function HomePage() {
             }
 
             if (!isDeleting && charIndex === currentText.length + 1) {
-                isEnd = true
-                setTimeout(() => {
+                timeoutRef.current = setTimeout(() => {
                     isDeleting = true
                 }, 2000)
                 return
@@ -40,25 +40,28 @@ export default function HomePage() {
             if (isDeleting && charIndex === 0) {
                 isDeleting = false
                 currentIndex = (currentIndex + 1) % texts.length
-                isEnd = false
             }
 
-            const speed = isDeleting ? 50 : isEnd ? 100 : 100
-            setTimeout(typeEffect, speed)
+            const speed = isDeleting ? 50 : 100
+            timeoutRef.current = setTimeout(typeEffect, speed)
         }
 
         typeEffect()
+
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current)
+        }
     }, [])
 
     return (
-        // Changed min-h-screen to h-full/min-h-full for better vertical flow
         <div>
             <div className="relative z-10">
-                {/* 1. Hero Section (Kept the same) */}
+                {/* HERO SECTION */}
                 <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
                     <div className="max-w-7xl mx-auto w-full">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
-                            {/* Left Content (Name, Title, Button) */}
+
+                            {/* LEFT CONTENT */}
                             <motion.div
                                 initial={{ opacity: 0, x: -50 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -73,6 +76,8 @@ export default function HomePage() {
                                     <h2 className="text-lg sm:text-xl md:text-2xl font-medium text-cyan-300 mb-4">
                                         Hey There!
                                     </h2>
+
+                                    <TESTAPI/>
 
                                     <motion.h1
                                         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
@@ -124,7 +129,7 @@ export default function HomePage() {
                                 </motion.div>
                             </motion.div>
 
-                            {/* Right Content - Animated Illustration */}
+                            {/* RIGHT CONTENT */}
                             <motion.div
                                 initial={{ opacity: 0, x: 50 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -132,55 +137,51 @@ export default function HomePage() {
                                 className="flex justify-center items-center"
                             >
                                 <div className="relative w-96 h-96">
-                                    {/* Animated circles & Developer illustration (kept the same) */}
+                                    {/* ROTATING CIRCLES */}
                                     <motion.div
                                         className="absolute inset-0 rounded-full border-2 border-cyan-400/30"
-                                        animate={{
-                                            scale: [1, 1.1, 1],
-                                            rotate: [0, 180, 360],
-                                        }}
-                                        transition={{
-                                            duration: 8,
-                                            repeat: Infinity,
-                                            ease: "linear"
-                                        }}
+                                        animate={{ scale: [1, 1.1, 1], rotate: [0, 180, 360] }}
+                                        transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
                                     />
                                     <motion.div
                                         className="absolute inset-8 rounded-full border-2 border-blue-400/30"
-                                        animate={{
-                                            scale: [1.1, 1, 1.1],
-                                            rotate: [360, 180, 0],
-                                        }}
-                                        transition={{
-                                            duration: 6,
-                                            repeat: Infinity,
-                                            ease: "linear"
-                                        }}
+                                        animate={{ scale: [1.1, 1, 1.1], rotate: [360, 180, 0] }}
+                                        transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
                                     />
 
+                                    {/* CENTER CARD */}
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         <div className="relative">
                                             <motion.div
                                                 className="w-48 h-48 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-3xl backdrop-blur-sm"
                                                 animate={{ y: [0, -10, 0] }}
-                                                transition={{
-                                                    duration: 3,
-                                                    repeat: Infinity,
-                                                    ease: "easeInOut"
-                                                }}
+                                                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                                             />
-                                            <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
-                                                <div className="text-center flex flex-col items-center justify-center">
-                                                    <img src="https://lh3.googleusercontent.com/a/ACg8ocLDhxPU-BeW-tFoDlzHEHooqXrUSLh2pU83B7es6rRYwt_Xg-OX=s360-c-no" className='rounded-full h-30' alt="profile-pic" />
-                                                    <div className="text-white font-bold text-xl">Code & Design</div>
+
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <div className="flex flex-col items-center text-center">
+                                                    <Image
+                                                        src="https://lh3.googleusercontent.com/a/ACg8ocLDhxPU-BeW-tFoDlzHEHooqXrUSLh2pU83B7es6rRYwt_Xg-OX=s360-c-no"
+                                                        alt="profile-pic"
+                                                        width={120}
+                                                        height={120}
+                                                        className="rounded-full"
+                                                        priority
+                                                    />
+                                                    <div className="text-white font-bold text-xl mt-2">
+                                                        Code & Design
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    {/* Floating elements (kept the same) */}
-                                    {[<div key="1" className="w-4 h-4 bg-cyan-400 rounded-full" />,
-                                    <div key="2" className="w-6 h-6 bg-blue-500 rounded-lg" />,
-                                    <div key="3" className="w-8 h-2 bg-purple-500 rounded-full" />].map((el, i) => (
+
+                                    {/* FLOATING ELEMENTS */}
+                                    {[
+                                        <div key="1" className="w-4 h-4 bg-cyan-400 rounded-full" />,
+                                        <div key="2" className="w-6 h-6 bg-blue-500 rounded-lg" />,
+                                        <div key="3" className="w-8 h-2 bg-purple-500 rounded-full" />,
+                                    ].map((el, i) => (
                                         <motion.div
                                             key={i}
                                             className="absolute"
@@ -188,14 +189,11 @@ export default function HomePage() {
                                                 top: `${30 + i * 20}%`,
                                                 left: `${10 + i * 25}%`,
                                             }}
-                                            animate={{
-                                                y: [0, -20, 0],
-                                                rotate: [0, 360],
-                                            }}
+                                            animate={{ y: [0, -20, 0], rotate: [0, 360] }}
                                             transition={{
                                                 duration: 3 + i,
                                                 repeat: Infinity,
-                                                ease: "linear"
+                                                ease: 'linear',
                                             }}
                                         >
                                             {el}
@@ -203,6 +201,7 @@ export default function HomePage() {
                                     ))}
                                 </div>
                             </motion.div>
+
                         </div>
                     </div>
                 </div>

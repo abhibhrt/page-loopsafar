@@ -1,4 +1,3 @@
-// components/navbar.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -20,9 +19,7 @@ export default function Navbar() {
     const pathname = usePathname()
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20)
-        }
+        const handleScroll = () => setScrolled(window.scrollY > 20)
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
@@ -31,18 +28,26 @@ export default function Navbar() {
 
     return (
         <>
+            {/* NAVBAR */}
             <motion.nav
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.5 }}
-                className={`fixed p-2 top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                        ? 'bg-gray-900/90 backdrop-blur-md border-b border-gray-800'
-                        : 'bg-transparent'
-                    }`}
+                className="fixed top-0 left-0 right-0 z-50 p-2"
             >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* STATIC BLUR LAYER (NOT animated) */}
+                <div
+                    className={`absolute inset-0 transition-all duration-300 ${scrolled
+                            ? 'bg-gray-900/90 backdrop-blur-md border-b border-gray-800'
+                            : 'bg-transparent'
+                        }`}
+                />
+
+                {/* CONTENT */}
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
-                        {/* Logo */}
+
+                        {/* LOGO */}
                         <Link href="/" className="flex-shrink-0">
                             <motion.div
                                 whileHover={{ scale: 1.05 }}
@@ -52,9 +57,9 @@ export default function Navbar() {
                             </motion.div>
                         </Link>
 
-                        {/* Desktop Navigation */}
+                        {/* DESKTOP NAV */}
                         <div className="hidden md:flex items-center space-x-8">
-                            {navItems.map((item) => (
+                            {navItems.map(item => (
                                 <Link key={item.path} href={item.path}>
                                     <motion.div
                                         className="relative group"
@@ -68,6 +73,7 @@ export default function Navbar() {
                                         >
                                             {item.name}
                                         </span>
+
                                         <motion.div
                                             className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500"
                                             initial={{ width: pathname === item.path ? '100%' : 0 }}
@@ -80,7 +86,7 @@ export default function Navbar() {
                             ))}
                         </div>
 
-                        {/* Mobile menu button */}
+                        {/* MOBILE TOGGLE */}
                         <motion.button
                             whileTap={{ scale: 0.95 }}
                             onClick={() => setIsOpen(!isOpen)}
@@ -93,27 +99,27 @@ export default function Navbar() {
                 </div>
             </motion.nav>
 
-            {/* Mobile Menu Overlay */}
+            {/* MOBILE MENU */}
             <AnimatePresence>
                 {isOpen && (
                     <>
-                        {/* Backdrop */}
+                        {/* BACKDROP (opacity animated, blur static) */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+                            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
                             onClick={closeMenu}
                         />
 
-                        {/* Mobile Menu */}
+                        {/* SLIDE PANEL */}
                         <motion.div
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed right-0 top-0 bottom-0 w-64 bg-gray-900/95 backdrop-blur-md z-50 md:hidden border-l border-gray-800"
+                            className="fixed right-0 top-0 bottom-0 z-50 w-64 bg-gray-900/95 backdrop-blur-md border-l border-gray-800 md:hidden"
                         >
                             <div className="flex flex-col h-full">
                                 <div className="p-6 border-b border-gray-800">
@@ -122,27 +128,21 @@ export default function Navbar() {
                                     </div>
                                 </div>
 
-                                <div className="flex-1 p-6">
-                                    <div className="flex flex-col space-y-6">
-                                        {navItems.map((item) => (
-                                            <Link
-                                                key={item.path}
-                                                href={item.path}
-                                                onClick={closeMenu}
+                                <div className="flex-1 p-6 space-y-6">
+                                    {navItems.map(item => (
+                                        <Link key={item.path} href={item.path} onClick={closeMenu}>
+                                            <motion.div
+                                                whileHover={{ x: 4 }}
+                                                whileTap={{ scale: 0.98 }}
+                                                className={`text-xl font-medium px-4 py-3 rounded-lg transition-colors duration-300 ${pathname === item.path
+                                                        ? 'bg-gray-800 text-cyan-300'
+                                                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                                                    }`}
                                             >
-                                                <motion.div
-                                                    className={`text-xl font-medium px-4 py-3 rounded-lg transition-colors duration-300 ${pathname === item.path
-                                                            ? 'bg-gray-800 text-cyan-300'
-                                                            : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-                                                        }`}
-                                                    whileHover={{ x: 4 }}
-                                                    whileTap={{ scale: 0.98 }}
-                                                >
-                                                    {item.name}
-                                                </motion.div>
-                                            </Link>
-                                        ))}
-                                    </div>
+                                                {item.name}
+                                            </motion.div>
+                                        </Link>
+                                    ))}
                                 </div>
 
                                 <div className="p-6 border-t border-gray-800">
