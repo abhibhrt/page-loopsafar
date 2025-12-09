@@ -77,7 +77,7 @@ export default function HomePage() {
                                         Hey There!
                                     </h2>
 
-                                    <TESTAPI/>
+                                    {/* <TESTAPI/> */}
 
                                     <motion.h1
                                         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
