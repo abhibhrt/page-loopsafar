@@ -11,33 +11,34 @@ import {
     FaPhone,
     FaMapMarkerAlt,
     FaHeart,
-    FaArrowUp
+    FaArrowUp,
+    FaYoutube
 } from 'react-icons/fa'
 import { SiLeetcode, SiCodeforces } from 'react-icons/si'
 import Link from 'next/link'
 import { useState } from 'react'
 
 const socialLinks = [
-    { icon: <FaGithub />, label: 'GitHub', href: 'https://github.com/abhishekbharti', color: 'hover:text-gray-300' },
-    { icon: <FaLinkedin />, label: 'LinkedIn', href: 'https://linkedin.com/in/abhishekbharti', color: 'hover:text-blue-500' },
-    { icon: <FaTwitter />, label: 'Twitter', href: 'https://twitter.com/abhishekbharti', color: 'hover:text-sky-400' },
-    { icon: <SiLeetcode />, label: 'LeetCode', href: 'https://leetcode.com/abhishekbharti', color: 'hover:text-orange-500' },
-    { icon: <SiCodeforces />, label: 'Codeforces', href: 'https://codeforces.com/profile/abhishekbharti', color: 'hover:text-red-500' },
-    { icon: <FaInstagram />, label: 'Instagram', href: 'https://instagram.com/abhishekbharti', color: 'hover:text-pink-500' },
+    { icon: <FaGithub />, label: 'GitHub', href: 'https://github.com/abhibhrt', color: 'hover:text-gray-300' },
+    { icon: <FaLinkedin />, label: 'LinkedIn', href: 'https://linkedin.com/in/abhibhrt', color: 'hover:text-blue-500' },
+    { icon: <FaTwitter />, label: 'Twitter', href: 'https://twitter.com/abhibhrt', color: 'hover:text-sky-400' },
+    { icon: <SiLeetcode />, label: 'LeetCode', href: 'https://leetcode.com/abhibhrt', color: 'hover:text-orange-500' },
+    { icon: <FaYoutube />, label: 'YouTube', href: 'https://youtube.com/@loopsafar', color: 'hover:text-red-500' },
+    { icon: <FaInstagram />, label: 'Instagram', href: 'https://instagram.com/loopsafar', color: 'hover:text-pink-500' },
 ]
 
 const quickLinks = [
     { label: 'Home', href: '/' },
     { label: 'Projects', href: '/projects' },
-    { label: 'About', href: '/#about' },
+    { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
-    { label: 'Skills', href: '/#skills' },
+    { label: 'Skills', href: '/skills' },
     { label: 'Resume', href: '/resume' },
 ]
 
 const techStack = [
-    'React.js', 'Next.js', 'Node.js', 'TypeScript', 'Tailwind CSS',
-    'MongoDB', 'Express.js', 'Redux', 'Docker', 'Git'
+    'React.js', 'Next.js', 'Node.js', 'JavaScript', 'Tailwind CSS',
+    'MongoDB', 'Express.js', 'Git', 'GitHub'
 ]
 
 export default function Footer() {
@@ -92,14 +93,14 @@ export default function Footer() {
                             <div className="space-y-3">
                                 <div className="flex items-center gap-3 text-gray-300">
                                     <FaEnvelope className="text-cyan-400" />
-                                    <a href="mailto:hello@abhishekbharti.dev" className="hover:text-cyan-400 transition-colors">
-                                        hello@abhishekbharti.dev
+                                    <a href="mailto:abhibharti365@gmail.com" className="hover:text-cyan-400 transition-colors">
+                                        abhibharti365@gmail.com
                                     </a>
                                 </div>
                                 <div className="flex items-center gap-3 text-gray-300">
                                     <FaPhone className="text-cyan-400" />
-                                    <a href="tel:+919876543210" className="hover:text-cyan-400 transition-colors">
-                                        +91 98765 43210
+                                    <a href="tel:+919713397975" className="hover:text-cyan-400 transition-colors">
+                                        +91 971339 7975
                                     </a>
                                 </div>
                                 <div className="flex items-center gap-3 text-gray-300">

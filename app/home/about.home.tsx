@@ -92,16 +92,6 @@ const SkillCategory = ({
 )
 
 export default function AboutSection() {
-    const handleDownloadResume = () => {
-        // Replace with your actual resume URL or file
-        const resumeUrl = '/resume.pdf'
-        const link = document.createElement('a')
-        link.href = resumeUrl
-        link.download = 'Abhishek_Bharti_Resume.pdf'
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-    }
 
     return (
         <section className="py-20 px-4 relative overflow-hidden">
@@ -140,7 +130,7 @@ export default function AboutSection() {
                                             </div>
                                         </div>
                                         <div className="absolute -top-2 -right-2 bg-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full animate-bounce">
-                                            Grad. 2024
+                                            Grad. 2025
                                         </div>
                                     </div>
                                 </motion.div>
@@ -326,15 +316,14 @@ export default function AboutSection() {
                             </p>
 
                             <motion.button
-                                onClick={handleDownloadResume}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 className="group relative px-10 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-lg rounded-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/40"
                             >
-                                <div className="relative z-10 flex items-center justify-center gap-3">
+                                <a href='https://drive.google.com/file/d/182q-15EucOEIrjEwNUadSDGwpBaGbNPo/view?usp=drive_link' className="relative z-10 flex items-center justify-center gap-3">
                                     <FaDownload className="w-5 h-5" />
                                     <span>Get Resume</span>
-                                </div>
+                                </a>
                                 <motion.div
                                     className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500"
                                     initial={{ x: '-100%' }}
