@@ -2,24 +2,25 @@
 
 import { useEffect, useState, memo } from 'react'
 import { motion } from 'framer-motion'
+import { FiChevronLeft, FiChevronRight, FiYoutube, FiPlay } from 'react-icons/fi'
 
 /* ---------------- CONFIG ---------------- */
 const VISIBLE_COUNT = 7
 const CENTER_INDEX = 3
-const AUTO_SCROLL_INTERVAL = 5000
-const TRANSITION_DURATION = 1
+const AUTO_SCROLL_INTERVAL = 3000
+const TRANSITION_DURATION = 0.8
 
 const cardConfigs = [
-  { scale: 0.4, x: '120%', rotate: 12, zIndex: 10, opacity: 0.4, filter: 'blur(4px) grayscale(0.5)' },
-  { scale: 0.6, x: '80%', rotate: 8, zIndex: 20, opacity: 0.6, filter: 'blur(4px) grayscale(0.25)' },
-  { scale: 0.8, x: '40%', rotate: 4, zIndex: 30, opacity: 0.8, filter: 'none' },
+  { scale: 0.5, x: '130%', rotate: 0, zIndex: 10, opacity: 0.2, filter: 'grayscale(1) blur(2px)' },
+  { scale: 0.7, x: '90%', rotate: 0, zIndex: 20, opacity: 0.4, filter: 'grayscale(0.8)' },
+  { scale: 0.85, x: '45%', rotate: 0, zIndex: 30, opacity: 0.7, filter: 'grayscale(0.4)' },
   { scale: 1, x: '0%', rotate: 0, zIndex: 40, opacity: 1, filter: 'none' },
-  { scale: 0.8, x: '-40%', rotate: -4, zIndex: 30, opacity: 0.8, filter: 'none' },
-  { scale: 0.6, x: '-80%', rotate: -8, zIndex: 20, opacity: 0.6, filter: 'blur(4px) grayscale(0.25)' },
-  { scale: 0.4, x: '-120%', rotate: -12, zIndex: 10, opacity: 0.4, filter: 'blur(4px) grayscale(0.5)' },
+  { scale: 0.85, x: '-45%', rotate: 0, zIndex: 30, opacity: 0.7, filter: 'grayscale(0.4)' },
+  { scale: 0.7, x: '-90%', rotate: 0, zIndex: 20, opacity: 0.4, filter: 'grayscale(0.8)' },
+  { scale: 0.5, x: '-130%', rotate: 0, zIndex: 10, opacity: 0.2, filter: 'grayscale(1) blur(2px)' },
 ]
 
-/* ---------------- CARD — SAME DESIGN + PLAY/PAUSE ---------------- */
+/* ---------------- CARD ---------------- */
 const ShortsCard = memo(({
   videoId,
   position,
@@ -35,79 +36,51 @@ const ShortsCard = memo(({
 }) => {
   const baseParams = 'controls=0&rel=0&modestbranding=1&playsinline=1&fs=0&disablekb=1&loop=1&mute=0'
   const autoplayParam = isPlaying ? '&autoplay=1' : '&autoplay=0'
-  const playlistParam = `&playlist=${videoId}` // required for loop
+  const playlistParam = `&playlist=${videoId}`
 
   const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?${baseParams}${autoplayParam}${playlistParam}`
-
-  // Listen to iframe messages to detect when video actually playing/ended/paused
-  useEffect(() => {
-    const handler = (e: MessageEvent) => {
-      if (!e.data || typeof e.data !== 'string') return
-      try {
-        const data = JSON.parse(e.data)
-        if (data.event === 'infoDelivery' && data.info?.playerState !== undefined) {
-          const state = data.info.playerState
-          // 1 = playing, 2 = paused, 0 = ended
-          if (state === 1 && isActive) onPlayStateChange(true)
-          if ((state === 2 || state === 0) && isActive) onPlayStateChange(false)
-        }
-      } catch { }
-    }
-    window.addEventListener('message', handler)
-    return () => window.removeEventListener('message', handler)
-  }, [videoId, isActive, onPlayStateChange])
 
   return (
     <motion.div
       animate={cardConfigs[position]}
-      transition={{ duration: TRANSITION_DURATION, ease: 'easeInOut' }}
+      transition={{ duration: TRANSITION_DURATION, ease: [0.22, 1, 0.36, 1] }}
       className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-        rounded-xl overflow-hidden transition-all duration-300 cursor-pointer
-        ${isActive ? 'ring-2 ring-cyan-400 shadow-2xl shadow-cyan-500/30' : 'shadow-lg'}
-        hover:scale-[1.02] hover:z-50
+        rounded-md overflow-hidden border transition-all duration-300
+        ${isActive ? 'border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'border-slate-800 shadow-xl'}
+        ${isActive ? 'cursor-pointer' : 'pointer-events-none'}
       `}
-      style={{ width: 180, height: 320 }}
+      style={{ width: 200, height: 350 }}
       onClick={() => isActive && onPlayStateChange(!isPlaying)}
     >
-      {/* Glow — identical to original */}
-      {isActive && (
-        <motion.div
-          className="absolute -inset-1 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 blur-md opacity-30"
-          animate={{ opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
-      )}
-
-      <div className="relative w-full h-full bg-black rounded-xl overflow-hidden">
+      <div className="relative w-full h-full bg-slate-900">
         <iframe
           key={`${videoId}-${isPlaying}`}
           src={embedUrl}
           title={videoId}
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen={false}
-          className="w-full h-full pointer-events-none"
+          className={`w-full h-full pointer-events-none transition-opacity duration-500 ${isPlaying ? 'opacity-100' : 'opacity-60'}`}
           sandbox="allow-scripts allow-same-origin allow-presentation"
         />
 
-        {/* Playing badge */}
-        {isPlaying && (
-          <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-pulse font-medium">
-            Playing
-          </div>
+        {/* Elite Overlay Details */}
+        {!isPlaying && isActive && (
+            <div className="absolute inset-0 flex items-center justify-center bg-slate-950/40 backdrop-blur-[2px]">
+                <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-white/10">
+                    <FiPlay className="text-white translate-x-0.5" />
+                </div>
+            </div>
         )}
 
-        {/* Active dot */}
-        {isActive && !isPlaying && (
-          <div className="absolute top-2 left-2 bg-cyan-500 text-white text-xs px-2 py-1 rounded-full">
-            ●
+        {isPlaying && (
+          <div className="absolute top-3 right-3 bg-red-600 text-[10px] px-2 py-0.5 rounded-sm font-bold uppercase tracking-tighter text-white animate-pulse">
+            Live
           </div>
         )}
       </div>
 
-      {/* Bottom label — identical */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-        <div className="text-center text-white text-xs font-medium">
-          @loopsafar
+      <div className="absolute bottom-0 left-0 right-0 bg-slate-900/90 border-t border-slate-800 p-2 backdrop-blur-md">
+        <div className="text-[10px] text-slate-400 font-mono tracking-widest uppercase text-center">
+          Short.ID: {videoId.substring(0,6)}
         </div>
       </div>
     </motion.div>
@@ -116,10 +89,10 @@ const ShortsCard = memo(({
 
 ShortsCard.displayName = 'ShortsCard'
 
-/* ---------------- MAIN — 100% ORIGINAL DESIGN + SMART PLAY CONTROL ---------------- */
+/* ---------------- MAIN SECTION ---------------- */
 const YouTubeShortsSection = ({ shortIds }: { shortIds: string[] }) => {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(false)        // is ANY video playing?
+  const [isPlaying, setIsPlaying] = useState(false)
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null)
   const [isHovered, setIsHovered] = useState(false)
 
@@ -150,7 +123,6 @@ const YouTubeShortsSection = ({ shortIds }: { shortIds: string[] }) => {
     setActiveIndex(i => (i - 1 + shortIds.length) % shortIds.length)
   }
 
-  // Auto-scroll only when: not playing AND not hovered
   useEffect(() => {
     if (isPlaying || isHovered) return
     const interval = setInterval(next, AUTO_SCROLL_INTERVAL)
@@ -160,107 +132,89 @@ const YouTubeShortsSection = ({ shortIds }: { shortIds: string[] }) => {
   if (shortIds.length < 4) return null
 
   return (
-    <div className="relative py-12 px-4 max-w-7xl mx-auto">
-      {/* Header — identical */}
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-          YouTube <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Shorts</span>
-        </h2>
-        <p className="text-gray-400 text-sm">
-          Auto-scroll every {AUTO_SCROLL_INTERVAL / 1000}s • Hover to pause • Click center to play
-        </p>
-      </div>
-
-      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-gray-900/20 rounded-3xl pointer-events-none" />
-
-      <div
-        className="relative h-[420px] w-full"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Center line & circle — identical */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-full opacity-20">
-          <div className="w-full h-full bg-gradient-to-b from-transparent via-cyan-500 to-transparent" />
+    <section className="bg-slate-950 py-20 px-6 border-y border-slate-900">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+          <div className="text-left">
+            <div className="flex items-center gap-2 mb-2">
+              <FiYoutube className="text-red-600" size={20} />
+              <span className="text-xs font-mono text-slate-500 uppercase tracking-[0.3em]">Featured Media</span>
+            </div>
+            <h2 className="text-3xl font-bold text-white tracking-tight">
+              YouTube <span className="text-blue-500">Insights</span>
+            </h2>
+          </div>
+          <p className="text-slate-500 text-xs font-medium max-w-xs text-right">
+            System paused on hover. Select the central node to initialize playback.
+          </p>
         </div>
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border-2 border-cyan-400/20 rounded-full" />
 
-        {/* Cards */}
-        {Array.from({ length: VISIBLE_COUNT }).map((_, pos) => {
-          const videoId = shortIds[getVideoIndex(pos)]
-          const isActive = pos === CENTER_INDEX
-          const isCurrentlyPlaying = playingVideoId === videoId
-
-          return (
-            <ShortsCard
-              key={videoId}
-              videoId={videoId}
-              position={pos}
-              isActive={isActive}
-              isPlaying={isCurrentlyPlaying}
-              onPlayStateChange={handlePlayStateChange}
-            />
-          )
-        })}
-
-        {/* Navigation — identical */}
-        <button
-          onClick={prev}
-          disabled={isPlaying}
-          className="absolute left-4 bottom-1 -translate-y-1/2 w-12 h-12 rounded-full
-            bg-gray-900/80 backdrop-blur-sm border border-gray-700
-            flex items-center justify-center text-white text-2xl
-            hover:bg-gray-800 hover:border-cyan-500 transition-all active:scale-95
-            disabled:opacity-50 disabled:cursor-not-allowed"
+        <div
+          className="relative h-[450px] w-full"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          ←
-        </button>
-        <button
-          onClick={next}
-          disabled={isPlaying}
-          className="absolute right-4 bottom-1 -translate-y-1/2 w-12 h-12 rounded-full
-            bg-gray-900/80 backdrop-blur-sm border border-gray-700
-            flex items-center justify-center text-white text-2xl
-            hover:bg-gray-800 hover:border-cyan-500 transition-all active:scale-95
-            disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          →
-        </button>
+          {/* Subtle Elite Grid/Lines */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="w-[1px] h-full bg-gradient-to-b from-transparent via-slate-800 to-transparent" />
+            <div className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-slate-800 to-transparent" />
+          </div>
 
-        {/* Status dot */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-          <div className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-red-500 animate-pulse' : isHovered ? 'bg-yellow-500' : 'bg-green-500'}`} />
+          {/* Cards */}
+          {Array.from({ length: VISIBLE_COUNT }).map((_, pos) => {
+            const videoId = shortIds[getVideoIndex(pos)]
+            const isActive = pos === CENTER_INDEX
+            const isCurrentlyPlaying = playingVideoId === videoId
+
+            return (
+              <ShortsCard
+                key={videoId}
+                videoId={videoId}
+                position={pos}
+                isActive={isActive}
+                isPlaying={isCurrentlyPlaying}
+                onPlayStateChange={handlePlayStateChange}
+              />
+            )
+          })}
+
+          {/* Nav Controls */}
+          <div className="absolute bottom-4 left-0 right-0 flex justify-between px-4 z-50">
+            <button
+              onClick={prev}
+              disabled={isPlaying}
+              className="cursor-pointer w-10 h-10 rounded-sm bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-blue-500 transition-all disabled:opacity-20"
+            >
+              <FiChevronLeft />
+            </button>
+            <button
+              onClick={next}
+              disabled={isPlaying}
+              className="cursor-pointer w-10 h-10 rounded-sm bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-blue-500 transition-all disabled:opacity-20"
+            >
+              <FiChevronRight />
+            </button>
+          </div>
         </div>
 
-        {/* Dots — same as original */}
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2">
-          {Array.from({ length: Math.min(5, shortIds.length) }).map((_, i) => (
-            <div
-              key={i}
-              className={`w-2 h-2 rounded-full transition-all ${i === 0 ? 'bg-cyan-400 w-6' : 'bg-gray-600'}`}
-            />
-          ))}
+        {/* Elite Status Legend */}
+        <div className="mt-16 flex justify-center border-t border-slate-900 pt-8">
+          <div className="flex items-center gap-8">
+            <StatusItem label="Standby" color="bg-slate-700" />
+            <StatusItem label="Active Node" color="bg-blue-500" />
+            <StatusItem label="Stream Active" color="bg-red-500 animate-pulse" />
+          </div>
         </div>
       </div>
-
-      {/* Legend — identical */}
-      <div className="text-center mt-12">
-        <div className="inline-flex items-center gap-6 text-gray-400 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-            <span>Scrolling</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-            <span>Paused (hover)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-            <span>Playing</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
   )
 }
+
+const StatusItem = ({ label, color }: { label: string; color: string }) => (
+  <div className="flex items-center gap-2">
+    <div className={`w-1.5 h-1.5 rounded-full ${color}`} />
+    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">{label}</span>
+  </div>
+)
 
 export default YouTubeShortsSection

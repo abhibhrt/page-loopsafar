@@ -2,252 +2,135 @@
 
 import { motion } from 'framer-motion'
 import {
-    FaGithub,
-    FaLinkedin,
-    FaTwitter,
-    FaInstagram,
-    FaEnvelope,
-    FaPhone,
-    FaMapMarkerAlt,
-    FaHeart,
-    FaArrowUp,
-    FaYoutube,
+    FaGithub, FaLinkedin, FaTwitter, FaInstagram, FaEnvelope,
+    FaPhone, FaMapMarkerAlt, FaArrowUp, FaYoutube, FaTerminal
 } from 'react-icons/fa'
 import { SiLeetcode } from 'react-icons/si'
 import Link from 'next/link'
 import { useState } from 'react'
 
 const socialLinks = [
-    { icon: <FaGithub />, label: 'GitHub', href: 'https://github.com/abhibhrt', color: 'hover:text-gray-300' },
-    { icon: <FaLinkedin />, label: 'LinkedIn', href: 'https://linkedin.com/in/abhibhrt', color: 'hover:text-blue-500' },
-    { icon: <FaTwitter />, label: 'Twitter', href: 'https://twitter.com/abhibhrt', color: 'hover:text-sky-400' },
-    { icon: <SiLeetcode />, label: 'LeetCode', href: 'https://leetcode.com/abhibhrt', color: 'hover:text-orange-500' },
-    { icon: <FaYoutube />, label: 'YouTube', href: 'https://youtube.com/@loopsafar', color: 'hover:text-red-500' },
-    { icon: <FaInstagram />, label: 'Instagram', href: 'https://instagram.com/loopsafar', color: 'hover:text-pink-500' },
-]
-
-const quickLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Projects', href: '/projects' },
-    { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' },
-    { label: 'Skills', href: '/skills' },
-    { label: 'Resume', href: '/resume' },
-]
-
-const techStack = [
-    'React.js',
-    'Next.js',
-    'Node.js',
-    'JavaScript',
-    'Tailwind CSS',
-    'MongoDB',
-    'Express.js',
-    'Git',
-    'GitHub',
+    { icon: <FaGithub />, href: 'https://github.com/abhibhrt', label: 'GH' },
+    { icon: <FaLinkedin />, href: 'https://linkedin.com/in/abhibhrt', label: 'LI' },
+    { icon: <FaTwitter />, href: 'https://twitter.com/abhibhrt', label: 'TW' },
+    { icon: <SiLeetcode />, href: 'https://leetcode.com/abhibhrt', label: 'LC' },
+    { icon: <FaYoutube />, href: 'https://youtube.com/@loopsafar', label: 'YT' },
 ]
 
 export default function Footer() {
     const [email, setEmail] = useState('')
     const currentYear = new Date().getFullYear()
 
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-
-    const handleNewsletterSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        console.log('Newsletter subscription:', email)
-        setEmail('')
-        alert('Thanks for subscribing!')
-    }
+    const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
     return (
-        <footer className="relative bg-gray-900 border-t border-gray-800 overflow-hidden">
+        <footer className="relative bg-slate-950 border-t border-slate-900 pt-20 pb-10 overflow-hidden">
+            {/* Structural Background Element */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20" />
 
-            {/* BACKGROUND BLUR — STATIC */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply blur-3xl opacity-10 animate-pulse" />
-                <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply blur-3xl opacity-10 animate-pulse delay-1000" />
-            </div>
-
-            {/* GRID */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f12_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f12_1px,transparent_1px)] bg-[size:24px_24px]" />
-
-            <div className="relative z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-                    {/* MAIN GRID */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-
-                        {/* BRAND */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            viewport={{ once: true }}
-                            className="space-y-6"
-                        >
-                            <div>
-                                <h3 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                                    Abhishek Bharti
-                                </h3>
-                                <p className="text-gray-400 mt-2 text-sm">
-                                    Full Stack Developer specializing in modern web technologies and creating exceptional digital experiences.
-                                </p>
+            <div className="relative z-10 max-w-7xl mx-auto px-6">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+                    
+                    {/* --- BRAND COLUMN --- */}
+                    <div className="lg:col-span-5 space-y-8">
+                        <div>
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                                <span className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.3em]">Status: Available for hire</span>
                             </div>
+                            <h3 className="text-3xl font-bold text-white tracking-tighter uppercase">
+                                Abhishek <span className="text-slate-500">Bharti</span>
+                            </h3>
+                            <p className="text-slate-400 mt-4 text-sm leading-relaxed max-w-sm font-light">
+                                Architecting high-integrity digital systems. Specialized in Full-Stack Engineering and Distributed Web Architectures.
+                            </p>
+                        </div>
 
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-3 text-gray-300">
-                                    <FaEnvelope className="text-cyan-400" />
-                                    <a href="mailto:abhibharti365@gmail.com" className="hover:text-cyan-400 transition-colors">
-                                        abhibharti365@gmail.com
-                                    </a>
-                                </div>
-                                <div className="flex items-center gap-3 text-gray-300">
-                                    <FaPhone className="text-cyan-400" />
-                                    <a href="tel:+919713397975" className="hover:text-cyan-400 transition-colors">
-                                        +91 971339 7975
-                                    </a>
-                                </div>
-                                <div className="flex items-center gap-3 text-gray-300">
-                                    <FaMapMarkerAlt className="text-cyan-400" />
-                                    <span>Bhopal, Madhya Pradesh, India</span>
-                                </div>
+                        <div className="flex flex-col gap-3 font-mono text-[11px] text-slate-500">
+                            <div className="flex items-center gap-3">
+                                <FaEnvelope className="text-blue-500" />
+                                <a href="mailto:abhibharti365@gmail.com" className="hover:text-white transition-colors">ABHIBHARTI365@GMAIL.COM</a>
                             </div>
-                        </motion.div>
+                            <div className="flex items-center gap-3">
+                                <FaMapMarkerAlt className="text-blue-500" />
+                                <span>BHOPAL, IN </span>
+                            </div>
+                        </div>
+                    </div>
 
-                        {/* QUICK LINKS */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.1 }}
-                            viewport={{ once: true }}
-                        >
-                            <h3 className="text-xl font-bold text-white mb-6">Quick Links</h3>
-                            <ul className="space-y-3">
-                                {quickLinks.map((link, i) => (
-                                    <li key={i}>
-                                        <Link href={link.href} className="text-gray-400 hover:text-cyan-400 transition-colors flex items-center gap-2 group">
-                                            <span className="w-1 h-1 bg-cyan-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                                            {link.label}
+                    {/* --- NAVIGATION & TECH --- */}
+                    <div className="lg:col-span-3 grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 className="text-xs font-mono text-white mb-6 uppercase tracking-widest border-l-2 border-blue-600 pl-3">Index</h4>
+                            <ul className="space-y-3 text-sm text-slate-400">
+                                {['Projects', 'About', 'Skills', 'Resume'].map((item) => (
+                                    <li key={item}>
+                                        <Link href={`/${item.toLowerCase()}`} className="hover:text-blue-400 transition-colors flex items-center gap-2 group">
+                                            <span className="h-[1px] w-0 bg-blue-500 group-hover:w-3 transition-all" />
+                                            {item}
                                         </Link>
                                     </li>
                                 ))}
                             </ul>
-                        </motion.div>
-
-                        {/* TECH STACK */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            viewport={{ once: true }}
-                        >
-                            <h3 className="text-xl font-bold text-white mb-6">Tech Stack</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {techStack.map((tech, i) => (
-                                    <motion.div
-                                        key={i}
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        whileInView={{ opacity: 1, scale: 1 }}
-                                        transition={{ duration: 0.3, delay: i * 0.05 }}
-                                        viewport={{ once: true }}
-                                        whileHover={{ y: -2 }}
-                                        className="cursor-default"
-                                    >
-                                        <span className="px-3 py-1.5 bg-gray-800/50 backdrop-blur-sm rounded-full text-sm text-gray-300 border border-gray-700 hover:border-cyan-500/50 transition-all">
-                                            {tech}
-                                        </span>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </motion.div>
-
-                        {/* NEWSLETTER */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.3 }}
-                            viewport={{ once: true }}
-                        >
-                            <h3 className="text-xl font-bold text-white mb-6">Stay Updated</h3>
-                            <p className="text-gray-400 mb-4 text-sm">
-                                Subscribe to my newsletter for latest projects and tech insights.
-                            </p>
-
-                            <form onSubmit={handleNewsletterSubmit} className="space-y-3">
-                                <div className="relative">
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={e => setEmail(e.target.value)}
-                                        placeholder="Enter your email"
-                                        required
-                                        className="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
-                                    />
-                                    <FaEnvelope className="absolute right-3 top-3.5 text-gray-500" />
-                                </div>
-
-                                <motion.button
-                                    type="submit"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/25 transition-all"
-                                >
-                                    Subscribe
-                                </motion.button>
-                            </form>
-                        </motion.div>
+                        </div>
+                        <div>
+                            <h4 className="text-xs font-mono text-white mb-6 uppercase tracking-widest border-l-2 border-blue-600 pl-3">Stack</h4>
+                            <ul className="space-y-2 text-[11px] font-mono text-slate-500 uppercase">
+                                <li>Next.js 14</li>
+                                <li>TypeScript</li>
+                                <li>Node.js</li>
+                                <li>MongoDB</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    {/* SOCIAL */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        viewport={{ once: true }}
-                        className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-6"
-                    >
-                        <span className="text-gray-400 text-sm">
-                            Connect with me on social platforms
-                        </span>
-
-                        <div className="flex gap-4">
-                            {socialLinks.map((social, i) => (
-                                <motion.a
-                                    key={i}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    whileHover={{ y: -3, scale: 1.1 }}
-                                    className={`w-10 h-10 rounded-full bg-gray-800/50 backdrop-blur-sm border border-gray-700 flex items-center justify-center text-lg text-gray-300 transition-all ${social.color}`}
-                                >
-                                    {social.icon}
-                                </motion.a>
-                            ))}
+                    {/* --- NEWSLETTER --- */}
+                    <div className="lg:col-span-4 bg-slate-900/40 border border-slate-800 p-6 rounded-sm">
+                        <div className="flex items-center gap-2 mb-4 text-white">
+                            <FaTerminal className="text-blue-500 text-xs" />
+                            <h4 className="text-xs font-mono uppercase tracking-widest">Subscriber Portal</h4>
                         </div>
-                    </motion.div>
-
-                    {/* BOTTOM */}
-                    <div className="mt-8 pt-6 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-gray-500 text-sm text-center md:text-left">
-                            © {currentYear} Abhishek Bharti • Made with <FaHeart className="inline text-red-500 mx-1" /> in India
-                        </p>
-
-                        <motion.button
-                            onClick={scrollToTop}
-                            whileHover={{ y: -3 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-6 py-2 rounded-full bg-gray-800/50 backdrop-blur-sm border border-gray-700 text-gray-300 hover:text-white hover:border-cyan-500 transition-all flex items-center gap-2"
-                        >
-                            Back to Top
-                            <FaArrowUp className="text-cyan-400" />
-                        </motion.button>
+                        <p className="text-slate-400 text-xs mb-6 font-light">Receive technical updates and project briefings directly.</p>
+                        
+                        <form className="flex flex-col gap-2">
+                            <input
+                                type="email"
+                                placeholder="USER_EMAIL@DOMAIN.COM"
+                                className="bg-slate-950 border border-slate-800 px-4 py-3 text-xs font-mono text-white focus:outline-none focus:border-blue-600 transition-colors"
+                            />
+                            <button className="bg-blue-600 hover:bg-white hover:text-blue-600 text-white text-[10px] font-mono font-bold py-3 transition-all uppercase tracking-[0.2em]">
+                                Establish Connection
+                            </button>
+                        </form>
                     </div>
                 </div>
 
-                <div className="h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-30" />
+                {/* --- FOOTER BOTTOM --- */}
+                <div className="pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="flex gap-3">
+                        {socialLinks.map((social, i) => (
+                            <a 
+                                key={i} 
+                                href={social.href}
+                                className="w-8 h-8 flex items-center justify-center border border-slate-800 text-slate-500 hover:border-blue-500 hover:text-blue-500 transition-all text-sm"
+                            >
+                                {social.icon}
+                            </a>
+                        ))}
+                    </div>
+
+                    <p className="text-[10px] font-mono text-slate-600 uppercase tracking-widest">
+                        © {currentYear} System_Abhishek_Bharti • Ver_2.0.0_Stable
+                    </p>
+
+                    <button 
+                        onClick={scrollToTop}
+                        className="group flex items-center gap-2 text-[10px] font-mono text-slate-500 hover:text-white transition-colors"
+                    >
+                        RETURN_TO_TOP 
+                        <FaArrowUp className="group-hover:-translate-y-1 transition-transform text-blue-500" />
+                    </button>
+                </div>
             </div>
         </footer>
     )

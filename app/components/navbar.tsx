@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiMenu, FiX } from 'react-icons/fi'
+import { FiMenu, FiX, FiCommand } from 'react-icons/fi'
 
 const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Contact', path: '/contact' },
-    { name: 'Progress', path: '/progress' },
+    { name: 'HOME', path: '/' },
+    { name: 'PROJECTS', path: '/projects' },
+    { name: 'CONTACT', path: '/contact' },
+    { name: 'PROGRESS', path: '/progress' },
 ]
 
 export default function Navbar() {
@@ -19,7 +19,7 @@ export default function Navbar() {
     const pathname = usePathname()
 
     useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20)
+        const handleScroll = () => setScrolled(window.scrollY > 50)
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
@@ -28,129 +28,127 @@ export default function Navbar() {
 
     return (
         <>
-            {/* NAVBAR */}
             <motion.nav
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="fixed top-0 left-0 right-0 z-50 p-2"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+                    scrolled ? 'py-3' : 'py-6'
+                }`}
             >
-                {/* STATIC BLUR LAYER (NOT animated) */}
-                <div
-                    className={`absolute inset-0 transition-all duration-300 ${scrolled
-                            ? 'bg-gray-900/90 backdrop-blur-md border-b border-gray-800'
-                            : 'bg-transparent'
-                        }`}
-                />
+                {/* HUD Background Layer */}
+                <div className={`absolute inset-0 transition-all duration-300 ${
+                    scrolled 
+                        ? 'bg-slate-950/80 backdrop-blur-xl border-b border-slate-800 shadow-2xl' 
+                        : 'bg-transparent'
+                }`} />
 
-                {/* CONTENT */}
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
+                <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
+                    <div className="flex items-center justify-between h-12">
 
-                        {/* LOGO */}
-                        <Link href="/" className="flex-shrink-0">
-                            <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
-                            >
-                                LOOPSAFAR
-                            </motion.div>
+                        {/* ELITE LOGO */}
+                        <Link href="/" className="flex items-center gap-3 group">
+                            <div className="bg-blue-600 p-1.5 rounded-sm group-hover:rotate-90 transition-transform duration-500">
+                                <FiCommand className="text-white text-lg" />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-xl font-bold tracking-[0.2em] text-white font-mono">
+                                    LOOPSAFAR
+                                </span>
+                                <span className="text-[8px] font-mono text-slate-500 uppercase tracking-widest leading-none">
+                                    Software Developer
+                                </span>
+                            </div>
                         </Link>
 
-                        {/* DESKTOP NAV */}
-                        <div className="hidden md:flex items-center space-x-8">
-                            {navItems.map(item => (
-                                <Link key={item.path} href={item.path}>
-                                    <motion.div
-                                        className="relative group"
-                                        whileHover={{ y: -2 }}
-                                    >
-                                        <span
-                                            className={`text-lg font-medium transition-colors duration-300 ${pathname === item.path
-                                                    ? 'text-cyan-300'
-                                                    : 'text-gray-300 hover:text-white'
-                                                }`}
-                                        >
-                                            {item.name}
-                                        </span>
-
-                                        <motion.div
-                                            className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500"
-                                            initial={{ width: pathname === item.path ? '100%' : 0 }}
-                                            animate={{ width: pathname === item.path ? '100%' : 0 }}
-                                            whileHover={{ width: '100%' }}
-                                            transition={{ duration: 0.3 }}
-                                        />
-                                    </motion.div>
-                                </Link>
-                            ))}
+                        {/* DESKTOP NAV - MONO STYLE */}
+                        <div className="hidden md:flex items-center space-x-10">
+                            {navItems.map(item => {
+                                const isActive = pathname === item.path
+                                return (
+                                    <Link key={item.path} href={item.path}>
+                                        <div className="relative group flex items-center gap-2">
+                                            {isActive && (
+                                                <motion.span 
+                                                    layoutId="activeTab"
+                                                    className="w-1.5 h-1.5 bg-blue-500 rounded-full" 
+                                                />
+                                            )}
+                                            <span className={`text-[11px] font-mono tracking-[0.2em] transition-all duration-300 ${
+                                                isActive ? 'text-white' : 'text-slate-500 group-hover:text-blue-400'
+                                            }`}>
+                                                {item.name}
+                                            </span>
+                                        </div>
+                                    </Link>
+                                )
+                            })}
+                            
+                            {/* CTA BUTTON */}
+                            <Link href="/contact">
+                                <button className="ml-4 px-5 py-2 border border-blue-600/50 text-blue-400 text-[10px] font-mono tracking-widest hover:bg-blue-600 hover:text-white transition-all duration-300 rounded-sm">
+                                    ESTABLISH CONNECTION
+                                </button>
+                            </Link>
                         </div>
 
                         {/* MOBILE TOGGLE */}
-                        <motion.button
-                            whileTap={{ scale: 0.95 }}
+                        <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="md:hidden p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-800"
-                            aria-label="Toggle menu"
+                            className="md:hidden text-slate-400 hover:text-white transition-colors"
                         >
-                            {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-                        </motion.button>
+                            {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+                        </button>
                     </div>
                 </div>
             </motion.nav>
 
-            {/* MOBILE MENU */}
+            {/* MOBILE MENU - ARCHITECTURAL SLIDE */}
             <AnimatePresence>
                 {isOpen && (
                     <>
-                        {/* BACKDROP (opacity animated, blur static) */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+                            className="fixed inset-0 z-40 bg-slate-950/90 backdrop-blur-md md:hidden"
                             onClick={closeMenu}
                         />
 
-                        {/* SLIDE PANEL */}
                         <motion.div
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed right-0 top-0 bottom-0 z-50 w-64 bg-gray-900/95 backdrop-blur-md border-l border-gray-800 md:hidden"
+                            transition={{ type: 'tween', duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-[300px] bg-slate-950 border-l border-slate-800 md:hidden p-8"
                         >
                             <div className="flex flex-col h-full">
-                                <div className="p-6 border-b border-gray-800">
-                                    <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                                        LOOPSAFAR
-                                    </div>
+                                <div className="mb-12 flex justify-between items-center">
+                                    <span className="text-[10px] font-mono text-slate-500 tracking-widest uppercase italic">Navigation_Menu</span>
+                                    <button onClick={closeMenu} className="text-slate-400 hover:text-white"><FiX size={24} /></button>
                                 </div>
 
-                                <div className="flex-1 p-6 space-y-6">
-                                    {navItems.map(item => (
+                                <div className="space-y-8">
+                                    {navItems.map((item, idx) => (
                                         <Link key={item.path} href={item.path} onClick={closeMenu}>
                                             <motion.div
-                                                whileHover={{ x: 4 }}
-                                                whileTap={{ scale: 0.98 }}
-                                                className={`text-xl font-medium px-4 py-3 rounded-lg transition-colors duration-300 ${pathname === item.path
-                                                        ? 'bg-gray-800 text-cyan-300'
-                                                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-                                                    }`}
+                                                initial={{ opacity: 0, x: 20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: idx * 0.1 }}
+                                                className={`text-2xl font-bold tracking-tighter ${
+                                                    pathname === item.path ? 'text-blue-500' : 'text-slate-500'
+                                                }`}
                                             >
+                                                <span className="text-xs font-mono mr-4 opacity-30">0{idx + 1}</span>
                                                 {item.name}
                                             </motion.div>
                                         </Link>
                                     ))}
                                 </div>
 
-                                <div className="p-6 border-t border-gray-800">
-                                    <button
-                                        onClick={closeMenu}
-                                        className="w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity"
-                                    >
-                                        Get in Touch
+                                <div className="mt-auto pt-10 border-t border-slate-900">
+                                    <p className="text-[10px] font-mono text-slate-600 uppercase mb-4 tracking-widest">Global Status: Online</p>
+                                    <button className="w-full py-4 bg-blue-600 text-white font-mono text-xs tracking-widest uppercase hover:bg-blue-700 transition-colors">
+                                        Ping System
                                     </button>
                                 </div>
                             </div>
