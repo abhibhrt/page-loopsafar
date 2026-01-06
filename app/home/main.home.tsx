@@ -139,7 +139,7 @@ export default function HomePage() {
                                     {/* MINIMALIST FLOATING ELEMENTS */}
                                     {[
                                         <div key="1" className="w-2 h-2 bg-emerald-500" />,
-                                        <div key="2" className="w-8 h-[1px] bg-slate-700" />,
+                                        <div key="2" className="w-1 h-1" />,
                                         <div key="3" className="w-4 h-4 border border-slate-700" />,
                                     ].map((el, i) => (
                                         <motion.div

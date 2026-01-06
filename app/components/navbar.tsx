@@ -9,7 +9,7 @@ import { FiMenu, FiX, FiCommand } from 'react-icons/fi'
 const navItems = [
     { name: 'HOME', path: '/' },
     { name: 'PROJECTS', path: '/projects' },
-    { name: 'CONTACT', path: '/contact' },
+    { name: 'CONTACT', path: '/contacts' },
     { name: 'PROGRESS', path: '/progress' },
 ]
 
