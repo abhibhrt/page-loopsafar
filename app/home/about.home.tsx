@@ -118,7 +118,7 @@ export default function AboutSection() {
                         >
                             {/* Decorative Grid Overlay */}
                             <div className="absolute inset-0 opacity-10 pointer-events-none"
-                                style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', size: '20px 20px' }} />
+                                style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)'}} />
 
                             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
                                 <div className="text-center md:text-left">
