@@ -78,7 +78,7 @@ export default function HomePage() {
                                         />
                                     </div>
 
-                                    <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                                    <div className="flex flex-row justify-center my-4 lg:justify-start">
                                         <Link href="/contact">
                                             <motion.button
                                                 whileHover={{ y: -2 }}

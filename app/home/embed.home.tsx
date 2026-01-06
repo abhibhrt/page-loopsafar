@@ -134,7 +134,7 @@ const YouTubeShortsSection = ({ shortIds }: { shortIds: string[] }) => {
   return (
     <section className="bg-slate-950 py-20 px-6 border-y border-slate-900">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+        <div className="flex flex-col md:flex-row justify-between mb-12 gap-4">
           <div className="text-left">
             <div className="flex items-center gap-2 mb-2">
               <FiYoutube className="text-red-600" size={20} />
@@ -144,7 +144,7 @@ const YouTubeShortsSection = ({ shortIds }: { shortIds: string[] }) => {
               YouTube <span className="text-blue-500">Insights</span>
             </h2>
           </div>
-          <p className="text-slate-500 text-xs font-medium max-w-xs text-right">
+          <p className="text-slate-500 text-xs font-medium md:text-right max-w-xs text-left">
             System paused on hover. Select the central node to initialize playback.
           </p>
         </div>
