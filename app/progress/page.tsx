@@ -130,7 +130,7 @@ const Progress = () => {
               Efficiency_Metrics
             </div>
             <h2 className="text-4xl font-bold text-white tracking-tighter uppercase">
-              System <span className="text-slate-500 font-light">Progress</span>
+              My <span className="text-slate-500">Progress</span>
             </h2>
           </div>
 
@@ -243,7 +243,7 @@ const Progress = () => {
       {/* MODAL */}
       <AnimatePresence>
         {(activeNote || activeRecord) && (
-          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur flex items-center justify-center p-6">
+          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur flex items-center justify-center p-6 z-20">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}

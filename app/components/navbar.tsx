@@ -123,7 +123,7 @@ export default function Navbar() {
                         >
                             <div className="flex flex-col h-full">
                                 <div className="mb-12 flex justify-between items-center">
-                                    <span className="text-[10px] font-mono text-slate-500 tracking-widest uppercase italic">Navigation_Menu</span>
+                                    <span className="text-[10px] font-mono text-slate-500 tracking-widest uppercase italic">Navigation Menu</span>
                                     <button onClick={closeMenu} className="text-slate-400 hover:text-white"><FiX size={24} /></button>
                                 </div>
 
@@ -134,12 +134,13 @@ export default function Navbar() {
                                                 initial={{ opacity: 0, x: 20 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: idx * 0.1 }}
-                                                className={`text-2xl font-bold tracking-tighter ${
+                                                className={`text-2xl my-6 font-bold tracking-tighter ${
                                                     pathname === item.path ? 'text-blue-500' : 'text-slate-500'
                                                 }`}
                                             >
-                                                <span className="text-xs font-mono mr-4 opacity-30">0{idx + 1}</span>
-                                                {item.name}
+                                                <span className="text-s font-mono mr-4 opacity-30">0{idx + 1}</span>
+                                                <span className="text-s font-mono mr-4">{item.name}</span>
+    
                                             </motion.div>
                                         </Link>
                                     ))}
